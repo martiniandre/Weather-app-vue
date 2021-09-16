@@ -2,45 +2,42 @@
   <main class="container">
     <div class="temperature">
       <section>
-        <h1>{{temperature.temp}}</h1>
+        <h1>{{temperature.main.temp.toFixed(0)}}º</h1>
         <div class="temp_name">
           <h2>{{temperature.name}}</h2>
-          <span>10:36 - Tuesday , 22 Oct 19</span>
-        </div>
-        <div class="temp_status">
-          <img src="" alt="">
-          <span>Sunny</span>
+          <span>{{temperature.weather[0].main}}</span>
         </div>
       </section>
       </div>
       <div class="temp_details">
           <div class="search">
-            <input type="text" placeholder="Next Location">
-            <button>Search</button>
+            <input type="text" placeholder="Next Location" v-on:input="updateSearch($event)">
+            <button @click="searchLocation">Search</button>
           </div>
           <div class="history">
-            <span>Birmingham</span>
-            <span>Manchester</span>
-            <span>New York</span>
-            <span>California</span>
+            <span v-for="(hist,index) in historic" :key="index">{{hist}}</span>
           </div>
           <div class="details">
            <h3>Weather Details</h3>
            <div>
-             <span>Cloudy</span>
-             <strong>12%</strong>
+             <span>Temperature</span>
+             <strong>{{temperature.main.temp}}°</strong>
+           </div>
+             <div>
+             <span>Feels Like</span>
+             <strong>{{temperature.main.feels_like}}°</strong>
+           </div>
+           <div>
+             <span>Min</span>
+             <strong>{{temperature.main.temp_min}}°</strong>
+           </div>
+           <div>
+             <span>Max</span>
+             <strong>{{temperature.main.temp_max}}°</strong>
            </div>
            <div>
              <span>Humidity</span>
-             <strong>78%</strong>
-           </div>
-           <div>
-             <span>Wind</span>
-             <strong>1Km/h</strong>
-           </div>
-           <div>
-             <span>Rain</span>
-             <strong>0mm</strong>
+             <strong>{{temperature.main.humidity}}%</strong>
            </div>
           </div>
       </div>
@@ -53,8 +50,12 @@
 export default {
   name: 'Home',
   props:  {
-    temperature: Object
-  }
+    temperature: Object,
+    search:String,
+    historic:Array,
+    searchLocation: Function,
+    updateSearch: Function,
+  },
 }
 </script>
 
